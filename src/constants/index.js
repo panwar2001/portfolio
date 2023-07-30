@@ -309,7 +309,7 @@ const projects = [
       }
     ],
     image: project5,
-    source_code_link: "https://github.com/panwar2001/mnistTrain.gits",
+    source_code_link: "https://github.com/panwar2001/mnistTrain",
     live_site_link: "",
   }
 ];
