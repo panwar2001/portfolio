@@ -215,8 +215,7 @@ const testimonials = [
 const projects = [
   {
     name: "TypeRacing",
-    description:
-      "",
+    description:"This project was a part of tally code brewers , 2023 hackathon , were i had a chance to develop and work on backend of this project and little bit frontend with my teammates. This project is inspired by typeracer which is a multiplayer typing game, Resulting in reaching into finals competing with other 12 participants.This project was a part of tally code brewers , 2023 hackathon , were i had a chance to develop and work on backend of this project and little bit frontend with my teammates. This project is inspired by typeracer which is a multiplayer typing game, Resulting in reaching into finals of the competition.",
     tags: [
       {
         name: "Vite react",
