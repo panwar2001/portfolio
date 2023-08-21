@@ -136,10 +136,6 @@ const experiences = [
     iconBg: "#383E56",
     date: "Oct 2023 - Nov 2023",
     points: [
-      "Developing and maintaining web applications using React.js and other related technologies.",
-      "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-      "Implementing responsive design and ensuring cross-browser compatibility.",
-      "Participating in code reviews and providing constructive feedback to other developers.",
     ],
   },
   {
@@ -185,7 +181,7 @@ const testimonials = [
 const projects = [
   {
     name: "TypeRacing",
-    description:"This project was a part of tally code brewers , 2023 hackathon , were i had a chance to develop and work on backend of this project and little bit frontend with my teammates. This project is inspired by typeracer which is a multiplayer typing game, Resulting in reaching into finals competing with other 12 participants.This project was a part of tally code brewers , 2023 hackathon , were i had a chance to develop and work on backend of this project and little bit frontend with my teammates. This project is inspired by typeracer which is a multiplayer typing game, Resulting in reaching into finals of the competition.",
+    description:"This project was a part of tally code brewers 2023 hackathon , were i had a chance to develop and work on the project.",
     tags: [
       {
         name: "Vite react",
