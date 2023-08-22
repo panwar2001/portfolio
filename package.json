@@ -37,7 +37,7 @@
     "react-tilt": "^1.0.2",
     "react-vertical-timeline-component": "^3.6.0",
     "styled-components": "^6.0.7",
-    "three": "^0.154.0"
+    "three": "^0.155.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
