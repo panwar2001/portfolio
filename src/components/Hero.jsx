@@ -1,8 +1,6 @@
 import React from "react";
-import { motion } from "framer-motion";
-
 import { styles } from "../styles";
-
+import SpinCube from "./SpinCube/index.jsx";
 // Hero
 const Hero = () => {
   return (
@@ -26,10 +24,7 @@ const Hero = () => {
           </p>
         </div>
       </div>
-
-      {/* Computer Model */}
-
-      {/* Scroll to about section */}
+     <SpinCube/>
     </section>
   );
 };
