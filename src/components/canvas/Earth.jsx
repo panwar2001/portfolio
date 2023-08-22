@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
+import { OrbitControls, useGLTF } from "@react-three/drei";
 
 import CanvasLoader from "../Loader";
 
@@ -23,7 +23,6 @@ const EarthCanvas = () => {
       gl={{ preserveDrawingBuffer: true }}
       camera={{ fov: 45, near: 0.1, far: 200, position: [-4, 3, 6] }}
     >
-      {/* Suspense show Canvas Loader on fallback */}
       <Suspense fallback={<CanvasLoader />}>
         <OrbitControls
           autoRotate
@@ -32,7 +31,6 @@ const EarthCanvas = () => {
           minPolarAngle={Math.PI / 2}
         />
 
-        {/* Earth */}
         <Earth />
       </Suspense>
     </Canvas>

@@ -5,9 +5,9 @@ animation-timing-function: ease-in-out;
 animation-iteration-count: infinite;
 animation-duration: 12s;
 transform-style: preserve-3d;
-transform-origin: 100px 100px 0;
-margin-left: calc(50%);
-padding-top:calc(40%);
+transform-origin: 100px 300px;
+padding-top:25%;
+margin-left:50%;
 @keyframes spincube {
     from,
     to {
