@@ -2,10 +2,6 @@
 // ! Don't remove anything from here if not sure
 
 import {
-  mobile,
-  backend,
-  creator,
-  web,
   javascript,
   typescript,
   html,
@@ -48,26 +44,6 @@ export const navLinks = [
     id: "source-code",
     title: "linkedin",
     link: "https://www.linkedin.com/in/panwar2001/",
-  },
-];
-
-// Services
-const services = [
-  {
-    title: "Web Developer",
-    icon: web,
-  },
-  {
-    title: "React Native Developer",
-    icon: mobile,
-  },
-  {
-    title: "Backend Developer",
-    icon: backend,
-  },
-  {
-    title: "Content Creator",
-    icon: creator,
   },
 ];
 
@@ -279,4 +255,4 @@ const projects = [
   }
 ];
 
-export { services, technologies, experiences, testimonials, projects };
+export { technologies, experiences, testimonials, projects };

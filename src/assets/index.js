@@ -2,10 +2,6 @@
 // Don't remove anything from here if not sure
 
 import logo from "./logo.jpeg";
-import backend from "./backend.png";
-import creator from "./creator.png";
-import mobile from "./mobile.png";
-import web from "./web.png";
 import github from "./github.png";
 import preview from "./preview.png";
 import menu from "./menu.svg";
@@ -39,10 +35,6 @@ import project6 from "./project6.png";
 
 export {
   logo,
-  backend,
-  creator,
-  mobile,
-  web,
   github,
   preview,
   menu,
