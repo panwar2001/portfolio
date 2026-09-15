@@ -21,7 +21,8 @@
     "db:seed:remote": "wrangler d1 execute portfolio_db --remote --file=./db/seed.sql",
     "db:create": "wrangler d1 create portfolio_db",
     "db:studio": "wrangler d1 execute portfolio_db --local --command=\"select name from sqlite_master where type='table'\"",
-    "sync:apps": "node --experimental-strip-types scripts/sync-app-store-data.ts"
+    "sync:apps": "node --experimental-strip-types scripts/sync-app-store-data.ts",
+    "verify:domain": "node --experimental-strip-types scripts/verify-domain.ts"
   },
   "dependencies": {
     "isbot": "^5.1.36",

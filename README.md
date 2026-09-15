@@ -3,6 +3,10 @@
 A server-rendered portfolio for **Ayush Panwar**, app developer
 ([Play Store profile](https://play.google.com/store/apps/dev?id=4944030915077582132)).
 
+**Live:** <https://ayush-panwar-portfolio.ayushpanwar691.workers.dev>
+· **Repo:** <https://github.com/panwar2001/portfolio>
+· **Custom domain:** `ayushpanwar.is-a.dev` (record prepared in [`dns/`](./dns) — awaiting the is-a.dev PR)
+
 It is deliberately platform-agnostic: an **Android app, an iOS app and a web app
 are all just rows in the same table**, and the same card, grid and detail page
 render them. Play Store and App Store badges are chosen from the row's
@@ -32,6 +36,25 @@ already support it, so nothing else needs to change.
 One light theme, no theme switch. `/apps/:slug` holds the per-app detail page
 (screenshots, full description, store links), `/about` redirects home, and
 `/status` reports the live data source.
+
+---
+
+## Deployed resources
+
+| Resource | Value |
+| --- | --- |
+| Worker | `ayush-panwar-portfolio` |
+| Worker URL | `https://ayush-panwar-portfolio.ayushpanwar691.workers.dev` |
+| D1 database | `portfolio_db` (APAC) — id `33852abc-19e4-4d8d-9e17-83e7450708fb` |
+| D1 binding | `DB` |
+| Custom domain | `ayushpanwar.is-a.dev` — see [`dns/README.md`](./dns/README.md) |
+
+Redeploy with `npm run deploy`. Verify the custom domain once is-a.dev merges
+the record:
+
+```bash
+npm run verify:domain
+```
 
 ---
 
@@ -98,6 +121,7 @@ local D1 database stored in `.wrangler/state`. Useful scripts:
 | `npm run preview`                 | Build, then preview through Vite + workerd      |
 | `npm run typecheck`               | `wrangler types` + `react-router typegen` + tsc |
 | `npm run seed:generate`           | Regenerate `db/seed.sql` from the fixtures       |
+| `npm run verify:domain`           | Check the custom domain is serving this site      |
 | `npm run sync:apps`               | Re-scrape Play Store numbers into the fixtures    |
 | `npm run sync:apps -- --write-d1` | …and apply them to the local D1 database          |
 | `npm run db:migrate:local`        | Apply `db/migrations/*.sql` locally              |
@@ -277,6 +301,9 @@ app/
     home.tsx  app-detail.tsx  about.tsx  status.tsx
     projects.tsx  project-detail.tsx    (301 redirects)
     newsletter.ts  sitemap.ts
+dns/
+  ayushpanwar.is-a.dev.json   is-a.dev record to open as a PR
+  README.md                   how to claim the domain
 db/
   migrations/0001_init.sql    schema
   migrations/0002_platform.sql upgrade from the Android-only schema
