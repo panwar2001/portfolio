@@ -12,6 +12,7 @@ import { resolveTxt } from "node:dns/promises";
 
 const DEFAULT_HOST = "ayushpanwar.is-a.dev";
 const WORKER_HOST = "ayush-panwar-portfolio.ayushpanwar691.workers.dev";
+const WORKER_URL = `https://${WORKER_HOST}/`;
 
 const host = process.argv[2] ?? DEFAULT_HOST;
 
@@ -48,8 +49,19 @@ try {
 }
 
 /* --------------------------------------------------------------- HTTPS */
+const MARKERS = ["Ayush Panwar", "PDF to Text AI", "panwar2001"];
+
+/** Fetch a URL and report whether the HTML looks like this portfolio. */
+async function looksLikePortfolio(url: string) {
+  const response = await fetch(url, {
+    headers: { "user-agent": "portfolio-domain-check" },
+  });
+  const html = await response.text();
+  const found = MARKERS.filter((marker) => html.includes(marker));
+  return { ok: found.length === MARKERS.length, status: response.status, found, html };
+}
+
 let pageOk = false;
-let servedBy: string | null = null;
 
 if (dnsOk) {
   try {
@@ -59,34 +71,42 @@ if (dnsOk) {
     });
 
     console.log(`${green("✔")} HTTPS responds ${response.status}`);
-    servedBy = response.headers.get("cf-ray") ? "Cloudflare" : null;
-    if (servedBy) console.log(dim(`    edge: ${servedBy}`));
+    if (response.headers.get("cf-ray")) console.log(dim(`    edge: Cloudflare`));
 
     if (response.status >= 300 && response.status < 400) {
-      console.log(
-        dim(
-          `    redirects to ${response.headers.get("location")}\n` +
-            `    → if that is the is-a.dev "available" page, the record is not live yet.`,
-        ),
-      );
-    }
+      const location = response.headers.get("location") ?? "";
+      console.log(dim(`    redirects to ${location}`));
 
-    const html = await response.text();
-    const markers = [
-      "Ayush Panwar",
-      "PDF to Text AI",
-      "panwar2001",
-    ];
-    const found = markers.filter((marker) => html.includes(marker));
-    pageOk = found.length === markers.length;
-
-    if (pageOk) {
-      console.log(`${green("✔")} Serving this portfolio`);
+      // is-a.dev's URL record issues this redirect; that is the expected setup.
+      if (location === WORKER_URL) {
+        console.log(`${green("✔")} Redirect targets this Worker (is-a.dev URL record)`);
+        const target = await looksLikePortfolio(WORKER_URL);
+        pageOk = target.ok;
+        console.log(
+          target.ok
+            ? `${green("✔")} Worker serves this portfolio`
+            : `${red("✘")} Worker response did not look like this portfolio`,
+        );
+      } else if (location.includes("is-a.dev/available")) {
+        console.log(
+          red("✘") + dim("  that is the is-a.dev \"available\" page — record not live yet"),
+        );
+      } else {
+        const target = await looksLikePortfolio(location).catch(() => null);
+        pageOk = target?.ok ?? false;
+        if (pageOk) console.log(`${green("✔")} Redirect target serves this portfolio`);
+      }
     } else {
+      const html = await response.text();
+      const found = MARKERS.filter((marker) => html.includes(marker));
+      pageOk = found.length === MARKERS.length;
+
       console.log(
-        `${red("✘")} Response does not look like this portfolio (matched: ${
-          found.join(", ") || "nothing"
-        })`,
+        pageOk
+          ? `${green("✔")} Serving this portfolio`
+          : `${red("✘")} Response does not look like this portfolio (matched: ${
+              found.join(", ") || "nothing"
+            })`,
       );
     }
   } catch (error) {

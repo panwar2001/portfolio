@@ -6,7 +6,6 @@
     "email": "ayushpanwar691@gmail.com"
   },
   "records": {
-    "CNAME": "ayush-panwar-portfolio.ayushpanwar691.workers.dev"
-  },
-  "proxied": true
+    "URL": "https://ayush-panwar-portfolio.ayushpanwar691.workers.dev"
+  }
 }

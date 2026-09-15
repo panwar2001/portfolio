@@ -1,65 +1,73 @@
 # Custom domain — `ayushpanwar.is-a.dev`
 
 The site is live at
-<https://ayush-panwar-portfolio.ayushpanwar691.workers.dev>. This folder holds
-the record to point `ayushpanwar.is-a.dev` at it.
+<https://ayush-panwar-portfolio.ayushpanwar691.workers.dev>. This folder holds the
+record that points `ayushpanwar.is-a.dev` at it.
 
-`ayushpanwar.is-a.dev` is currently **unclaimed** (it redirects to is-a.dev's
-"available" page), so the record has to be added to the
-[is-a-dev/register](https://github.com/is-a-dev/register) registry first.
+`ayushpanwar.is-a.dev` is currently **unclaimed**, so the record has to be added
+to the [is-a-dev/register](https://github.com/is-a-dev/register) registry first.
+PR: <https://github.com/is-a-dev/register/pull/52442>
 
-## 1. Open the pull request
+## Why a `URL` record and not a `CNAME`
 
-1. Fork <https://github.com/is-a-dev/register> (or use the
-   [web editor](https://github.com/is-a-dev/register/new/main/domains) if you
-   have write access to a fork).
-2. Add a file named **`domains/ayushpanwar.json`** containing exactly
-   [`ayushpanwar.is-a.dev.json`](./ayushpanwar.is-a.dev.json) from this folder.
-   The filename is the subdomain: `ayushpanwar.json` → `ayushpanwar.is-a.dev`.
-3. Open a PR against `is-a-dev/register:main`.
+is-a.dev **rejects any CNAME ending in `.workers.dev`** — it is on their
+[disallowed list](https://github.com/is-a-dev/register/blob/main/util/disallowed-cnames.json)
+and enforced by `tests/records.test.js`:
 
-Their README asks you to write the request yourself — automated/AI-authored
-requests get rejected, so treat the file above as a reference and describe the
-change in your own words.
+```
+✘ records › All files should have valid records
+  ayushpanwar.json: CNAME cannot end with .workers.dev
+```
 
-## 2. What the record does
+A Workers custom domain / route is not an option either: both need the zone
+(`is-a.dev`) inside the Cloudflare account, and routes on an external zone are a
+paid-plan feature.
+
+So the supported pattern — the one **every** `workers.dev` site on is-a.dev
+uses (`hdgr`, `raneem`, `markbel.belal`, …) — is their custom `URL` record. It
+issues a redirect to the Worker. Result: visitors reach the site through
+`ayushpanwar.is-a.dev`, which is the point; the redirected-to hostname is visible
+in the address bar.
+
+## The record
+
+[`ayushpanwar.is-a.dev.json`](./ayushpanwar.is-a.dev.json):
 
 ```json
 {
   "owner": { "username": "panwar2001", "email": "ayushpanwar691@gmail.com" },
-  "records": { "CNAME": "ayush-panwar-portfolio.ayushpanwar691.workers.dev" },
-  "proxied": true
+  "records": { "URL": "https://ayush-panwar-portfolio.ayushpanwar691.workers.dev" }
 }
 ```
 
-- **`CNAME`** — resolves the subdomain to the Worker's `workers.dev` hostname.
-- **`proxied: true`** — is-a.dev's DNS runs on Cloudflare, so the record is
-  proxied and HTTPS is served by Cloudflare's edge. This is the setting their
-  own docs use (see `domains/docs.json`).
+No `proxied` key: a `URL` record is not a real DNS record, it is is-a.dev's own
+redirector, and `proxied: true` requires one of `A` / `AAAA` / `CNAME`.
 
-Once merged, DNS usually propagates within minutes.
+Validated against their suite before opening the PR:
 
-## 3. Verify it worked
+```bash
+node -e "
+const d=require('./util/disallowed-cnames.json');
+const v='ayush-panwar-portfolio.ayushpanwar691.workers.dev';
+console.log(d.filter(x=>x.startsWith('.')?v.endsWith(x):v===x));  // []
+"
+```
+
+## Verifying it works
+
+Once is-a.dev merges the record:
 
 ```bash
 npm run verify:domain
 ```
 
-That checks DNS resolution, the HTTPS handshake and that the served page is
-actually this portfolio (and reports the Worker it is being served from).
+It checks DNS, the HTTPS response, that the response is a redirect to the Worker
+(or the site itself), and that the served page really is this portfolio.
 
 ## Notes
 
-- **Worker routes are not needed.** A proxy-able CNAME plus a `workers.dev`
-  hostname is enough; no `routes` entry is added to `wrangler.jsonc`.
-- **If it ever fails to serve**, the fallback is is-a.dev's `URL` record type,
-  which issues a plain 301 redirect:
-
-  ```json
-  { "records": { "URL": "https://ayush-panwar-portfolio.ayushpanwar691.workers.dev" } }
-  ```
-
-  That works without the proxy, but visitors would see the `workers.dev`
-  hostname in the address bar, so prefer the CNAME.
-- **Changing the Worker name** (in `wrangler.jsonc`) changes the `workers.dev`
-  hostname, which would break this CNAME. Update both together.
+- **Renaming the Worker** (in `wrangler.jsonc`) changes its `workers.dev`
+  hostname and breaks this record. Update both together.
+- If you later want `ayushpanwar.is-a.dev` in the address bar with no redirect,
+  the only route is to deploy somewhere is-a.dev CNAMEs are allowed — Cloudflare
+  **Pages** (`<project>.pages.dev`) or Vercel/Netlify — instead of Workers.
