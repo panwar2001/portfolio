@@ -1,0 +1,4 @@
+# Local-only overrides for `npm run dev` (never committed, never deployed).
+#
+# Force the offline fixture instead of D1 while designing:
+# DATA_SOURCE=mock

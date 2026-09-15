@@ -1,0 +1,358 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ theme */
+/* Warm, paper-like palette in the spirit of garoono.in. Everything is a CSS
+   variable so dark mode is a single override block. */
+@theme {
+  --color-cream: #faf7f2;
+  --color-paper: #fffdfa;
+  --color-ink: #1c1917;
+  --color-ink-soft: #57534e;
+  --color-ink-faint: #a8a29e;
+  --color-line: #e7e1d8;
+  --color-accent: #b45309;
+  --color-accent-soft: #c2703a;
+  --color-accent-wash: #f6ece1;
+  --color-mint: #e7f4ea;
+  --color-mint-ink: #2f7d4f;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, sans-serif;
+  --font-serif: "Fraunces", "Newsreader", ui-serif, Georgia, "Times New Roman",
+    serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* Appearance: one soft, light, paper-like theme (matches the reference). */
+:root {
+  --bg: #fbfbfb;
+  --surface: #ffffff;
+  --surface-2: #f5f4f2;
+  --text: #1c1917;
+  --text-2: #57534e;
+  --text-3: #97928b;
+  --border: #e9e6e1;
+  --border-strong: #dedad3;
+  --accent: #b45309;
+  --accent-soft: #c2703a;
+  --accent-wash: #f6ece1;
+  --mint: #e7f4ea;
+  --mint-ink: #2f7d4f;
+  --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.04);
+  --shadow-md: 0 10px 24px -16px rgba(28, 25, 23, 0.25);
+  color-scheme: light;
+}
+
+* {
+  min-width: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--accent-wash);
+  color: var(--accent);
+}
+
+/* ------------------------------------------------------- reusable classes */
+.surface {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.hairline {
+  border-color: var(--border);
+}
+
+.muted {
+  color: var(--text-2);
+}
+
+.faint {
+  color: var(--text-3);
+}
+
+.stat-value {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.stat-label {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+/* App / project card. */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 160ms ease, box-shadow 160ms ease,
+    border-color 160ms ease;
+  height: 100%;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+.card-icon {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 11px;
+  overflow: hidden;
+  background: var(--surface-2);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-serif);
+  font-size: 19px;
+  color: var(--text-2);
+  border: 1px solid var(--border);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  background: var(--surface-2);
+  color: var(--text-2);
+  border: 1px solid var(--border);
+}
+
+/* Audience count badge on each card (the mint chip in the reference). */
+.pill-users {
+  background: var(--mint);
+  color: var(--mint-ink);
+  border-color: transparent;
+}
+
+.pill-accent {
+  background: var(--accent-wash);
+  color: var(--accent);
+  border-color: color-mix(in oklab, var(--accent) 22%, transparent);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 140ms ease, border-color 140ms ease,
+    transform 140ms ease;
+}
+
+.btn:hover {
+  border-color: color-mix(in oklab, var(--accent) 35%, var(--border));
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+}
+
+.btn-primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.social-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  transition: color 140ms ease, border-color 140ms ease, background 140ms ease;
+}
+
+.social-icon:hover {
+  color: var(--accent);
+  border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
+  background: var(--accent-wash);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 12px;
+  font-size: 13px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  outline: none;
+}
+
+.input:focus {
+  border-color: color-mix(in oklab, var(--accent) 50%, var(--border));
+}
+
+.tab {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-2);
+  border: 1px solid transparent;
+  cursor: pointer;
+  background: transparent;
+}
+
+.tab[aria-selected="true"] {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+
+.timeline {
+  position: relative;
+  padding-left: 16px;
+  border-left: 1px solid var(--border);
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -4.5px;
+  top: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--border);
+}
+
+.timeline-dot-current {
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-wash);
+}
+
+.prose-body {
+  white-space: pre-line;
+  line-height: 1.7;
+  color: var(--text-2);
+  font-size: 15px;
+}
+
+.shot {
+  flex: none;
+  width: 200px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+}
+
+.rail {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+}
+
+.sidebar {
+  background: var(--surface-2);
+  border-right: 1px solid var(--border);
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    background: transparent;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+/* ------------------------------------------------------------- sections */
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 21px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin: 0;
+}
+
+/* Stats strip that closes the page: big serif number, small caps label. */
+.stat-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 18px 12px;
+  text-align: center;
+}
+
+.stat-strip-value {
+  font-family: var(--font-serif);
+  font-size: clamp(24px, 3vw, 30px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0;
+}

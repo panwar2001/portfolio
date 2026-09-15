@@ -1,0 +1,49 @@
+/**
+ * Cloudflare Workers configuration.
+ *
+ * `wrangler deploy` in a React Router project picks up the framework
+ * automatically; the bindings stay explicit so D1 is always attached.
+ *
+ * First-time setup (already done for this project):
+ *   1. wrangler d1 create portfolio_db     # put the id in `database_id` below
+ *   2. npm run db:migrate:remote           # wrangler d1 migrations apply
+ *   3. npm run db:seed:remote              # loads db/seed.sql
+ *   4. npm run deploy
+ *
+ * The database already exists and is seeded; to change content use the
+ * `wrangler d1 execute` examples in README.md.
+ */
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "ayush-panwar-portfolio",
+  "main": "./workers/app.ts",
+  "compatibility_date": "2026-09-11",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "observability": {
+    "enabled": true
+  },
+  "upload_source_maps": true,
+  /**
+   * Data source for the portfolio content.
+   *   "d1"   — read everything from the D1 binding below (production)
+   *   "mock" — read everything from app/lib/mock-data.ts (offline/dev)
+   *
+   * The repository layer also falls back to mock automatically when the D1
+   * binding is missing or has no tables yet, so a fresh clone always renders.
+   */
+  "vars": {
+    "DATA_SOURCE": "d1",
+    "SITE_NAME": "Ayush Panwar",
+    "PLAY_DEVELOPER_ID": "4944030915077582132"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "portfolio_db",
+      "database_id": "33852abc-19e4-4d8d-9e17-83e7450708fb",
+      // Migrations live in db/migrations (wrangler's default is ./migrations).
+      "migrations_dir": "db/migrations"
+    }
+  ]
+}
