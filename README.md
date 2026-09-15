@@ -5,7 +5,7 @@ A server-rendered portfolio for **Ayush Panwar**, app developer
 
 **Live:** <https://ayush-panwar-portfolio.ayushpanwar691.workers.dev>
 · **Repo:** <https://github.com/panwar2001/portfolio>
-· **Custom domain:** `ayushpanwar.is-a.dev` (record prepared in [`dns/`](./dns) — awaiting the is-a.dev PR)
+· **Custom domain:** <https://ayush.frameyour.app>
 
 It is deliberately platform-agnostic: an **Android app, an iOS app and a web app
 are all just rows in the same table**, and the same card, grid and detail page
@@ -47,10 +47,10 @@ One light theme, no theme switch. `/apps/:slug` holds the per-app detail page
 | Worker URL | `https://ayush-panwar-portfolio.ayushpanwar691.workers.dev` |
 | D1 database | `portfolio_db` (APAC) — id `33852abc-19e4-4d8d-9e17-83e7450708fb` |
 | D1 binding | `DB` |
-| Custom domain | `ayushpanwar.is-a.dev` — see [`dns/README.md`](./dns/README.md) |
+| Custom domain | `ayush.frameyour.app` (Worker route, zone `frameyour.app`) |
 
-Redeploy with `npm run deploy`. Verify the custom domain once is-a.dev merges
-the record:
+Redeploy with `npm run deploy` (`wrangler` re-creates the custom domain and its
+certificate). Verify the domain at any time:
 
 ```bash
 npm run verify:domain
@@ -301,9 +301,6 @@ app/
     home.tsx  app-detail.tsx  about.tsx  status.tsx
     projects.tsx  project-detail.tsx    (301 redirects)
     newsletter.ts  sitemap.ts
-dns/
-  ayushpanwar.is-a.dev.json   is-a.dev record to open as a PR
-  README.md                   how to claim the domain
 db/
   migrations/0001_init.sql    schema
   migrations/0002_platform.sql upgrade from the Android-only schema

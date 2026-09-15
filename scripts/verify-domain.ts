@@ -1,16 +1,16 @@
 /**
- * Check that the custom domain is wired to this portfolio.
+ * Check that the custom domain (ayush.frameyour.app) is wired to this portfolio.
  *
- *   npm run verify:domain                     # checks ayushpanwar.is-a.dev
+ *   npm run verify:domain                     # checks ayush.frameyour.app
  *   npm run verify:domain -- my.domain.com    # checks any host
  *
  * Reports DNS, the HTTPS response and whether the served HTML is this site —
- * so it is obvious whether is-a.dev has published the record yet.
+ * so it is obvious whether the custom domain is live yet.
  */
 import { lookup } from "node:dns/promises";
 import { resolveTxt } from "node:dns/promises";
 
-const DEFAULT_HOST = "ayushpanwar.is-a.dev";
+const DEFAULT_HOST = "ayush.frameyour.app";
 const WORKER_HOST = "ayush-panwar-portfolio.ayushpanwar691.workers.dev";
 const WORKER_URL = `https://${WORKER_HOST}/`;
 
@@ -36,7 +36,7 @@ try {
   console.log(
     dim(
       `    ${error instanceof Error ? error.message : String(error)}\n` +
-        `    → is-a.dev has not published the record. Open the PR described in dns/README.md.`,
+        `    → the custom domain has not propagated yet; re-run in a minute.`,
     ),
   );
 }
@@ -77,19 +77,15 @@ if (dnsOk) {
       const location = response.headers.get("location") ?? "";
       console.log(dim(`    redirects to ${location}`));
 
-      // is-a.dev's URL record issues this redirect; that is the expected setup.
+      // A redirect is unexpected for the custom domain, but follow it anyway.
       if (location === WORKER_URL) {
-        console.log(`${green("✔")} Redirect targets this Worker (is-a.dev URL record)`);
+        console.log(`${green("✔")} Redirect targets this Worker`);
         const target = await looksLikePortfolio(WORKER_URL);
         pageOk = target.ok;
         console.log(
           target.ok
             ? `${green("✔")} Worker serves this portfolio`
             : `${red("✘")} Worker response did not look like this portfolio`,
-        );
-      } else if (location.includes("is-a.dev/available")) {
-        console.log(
-          red("✘") + dim("  that is the is-a.dev \"available\" page — record not live yet"),
         );
       } else {
         const target = await looksLikePortfolio(location).catch(() => null);
@@ -139,10 +135,6 @@ console.log(`${"─".repeat(60)}`);
 if (dnsOk && pageOk) {
   console.log(green(`\n${host} is live and serving the portfolio.\n`));
 } else {
-  console.log(
-    red(
-      `\n${host} is not ready yet. Next step: open the is-a.dev PR — see dns/README.md.\n`,
-    ),
-  );
+  console.log(red(`\n${host} is not ready yet.\n`));
   process.exitCode = 1;
 }

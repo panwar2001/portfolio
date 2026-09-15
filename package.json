@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Portfolio for Ayush Panwar — indie Android app developer. React Router v8 framework mode on Cloudflare Workers with D1.",
+  "description": "Portfolio for Ayush Panwar \u2014 indie Android app developer. React Router v8 framework mode on Cloudflare Workers with D1.",
   "scripts": {
     "dev": "react-router dev",
     "build": "react-router build",

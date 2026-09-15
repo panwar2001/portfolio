@@ -16,10 +16,24 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "ayush-panwar-portfolio",
+  /**
+   * Worker entry. Kept for local development (`npm run dev`) and for the
+   * `workers.dev` deployment; Pages ignores it.
+   */
   "main": "./workers/app.ts",
   "compatibility_date": "2026-09-11",
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": true,
+  /**
+   * Custom domain: ayush.frameyour.app (zone frameyour.app is on this account).
+   * `wrangler deploy` creates the proxied CNAME + certificate automatically.
+   */
+  "routes": [
+    {
+      "pattern": "ayush.frameyour.app",
+      "custom_domain": true
+    }
+  ],
   "observability": {
     "enabled": true
   },
