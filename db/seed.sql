@@ -11,7 +11,7 @@ DELETE FROM socials;
 DELETE FROM profile;
 
 INSERT INTO profile (id, name, headline, role, tagline, location, avatar_url, bio, email, availability) VALUES
-  (1, 'Ayush Panwar', 'Indie app maker', 'App Developer', 'Engineer by day, indie app maker by night — building small apps for Android, iOS and the web.', 'India', NULL, 'I''m Ayush Panwar, an app developer who ships small, focused products.
+  (1, 'Ayush Panwar', 'Indie app maker', 'App Developer', 'Engineer by day, indie app maker by night — building small apps for Android, iOS and the web.', 'India', '/ayush.jpg', 'I''m Ayush Panwar, an app developer who ships small, focused products.
 
 I like apps that do one thing properly: an OCR scanner that turns any document into editable text, a dual-camera recorder for reactions, a PDF toolkit, a meditation timer that counts every second. No bloat, no dark patterns — local-first processing, privacy by default, and interfaces that stay out of the way.
 

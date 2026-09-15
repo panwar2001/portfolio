@@ -30,7 +30,7 @@ export const mockProfile: Profile = {
   tagline:
     "Engineer by day, indie app maker by night — building small apps for Android, iOS and the web.",
   location: "India",
-  avatarUrl: null,
+  avatarUrl: "/ayush.jpg",
   bio: `I'm Ayush Panwar, an app developer who ships small, focused products.
 
 I like apps that do one thing properly: an OCR scanner that turns any document into editable text, a dual-camera recorder for reactions, a PDF toolkit, a meditation timer that counts every second. No bloat, no dark patterns — local-first processing, privacy by default, and interfaces that stay out of the way.
